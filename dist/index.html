@@ -18,8 +18,25 @@
 
     <script type="text/javascript">
 	$(function () {
+
+        function getQueryParams(qs) {
+            qs = qs.split("+").join(" ");
+
+            var params = {}, tokens,
+                re = /[?&]?([^=]+)=([^&]*)/g;
+
+            while (tokens = re.exec(qs)) {
+                params[decodeURIComponent(tokens[1])]
+                    = decodeURIComponent(tokens[2]);
+            }
+
+            return params;
+        }
+
+        var url = getQueryParams(document.location.search).url || "";
+
 	    window.swaggerUi = new SwaggerUi({
-                discoveryUrl:"http://petstore.swagger.wordnik.com/api/api-docs",
+                discoveryUrl:url,
                 apiKey:"special-key",
                 dom_id:"swagger-ui-container",
                 supportHeaderParams: false,
